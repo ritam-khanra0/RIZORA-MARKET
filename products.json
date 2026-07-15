@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Aurelia Leather Wallet",
+    "image": "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800&auto=format&fit=crop",
+    "original_price": 2499,
+    "offer_price": 1699,
+    "discount": 32
+  },
+  {
+    "id": 2,
+    "title": "Noir Ceramic Candle",
+    "image": "https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?q=80&w=800&auto=format&fit=crop",
+    "original_price": 1299,
+    "offer_price": 899,
+    "discount": 30
+  }
+]
