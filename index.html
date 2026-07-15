@@ -413,9 +413,9 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   /* ============================================================
-     CONFIG — আপনার হোয়াটসঅ্যাপ নম্বর এখানে বসাবেন (No spaces, no '+')
+     CONFIG — আপনার কান্ট্রি কোডসহ ১২-ডিজিটের হোয়াটসঅ্যাপ নম্বর
      ============================================================ */
-  const WHATSAPP_NUMBER = '918343876377'; // 👈 আপনার 12-digit Whatsapp Number টি এখানে বসান
+  const WHATSAPP_NUMBER = '918343876377'; 
   const SHOP_NAME = 'Rizora Market';
 
   const menuBtn = document.getElementById('mobile-menu-btn');
@@ -453,8 +453,7 @@
 
       card.innerHTML = `
         <div class="img-wrap relative h-72">
-          <img src="${p.image}" alt="${p.title}" loading="lazy"
-               class="w-full h-full object-cover" />
+          <img src="${p.image}" alt="${p.title}" loading="lazy" class="w-full h-full object-cover" />
           ${p.discount ? `<span class="absolute top-4 left-4 bg-gold text-navy-deep text-xs font-semibold px-3 py-1 rounded-full">-${p.discount}%</span>` : ''}
         </div>
         <div class="p-5 flex flex-col flex-1">
@@ -467,7 +466,6 @@
               : ''}
           </div>
 
-          <!-- 🟢 GREEN FREE DELIVERY BADGE -->
           <div class="flex items-center gap-1.5 text-emerald-light text-xs font-semibold mb-5 bg-emerald/10 border border-emerald/20 px-2.5 py-1 rounded-md w-fit">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -531,8 +529,6 @@
   });
 
   const hiddenForm = document.getElementById('hidden-google-form');
-  const hiddenIframe = document.getElementById('hidden_iframe');
-  let hasSubmittedOnce = false;
 
   orderForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -557,7 +553,7 @@
     submitBtn.disabled = true;
     submitBtnText.textContent = 'Confirming…';
 
-    // 1) Fill hidden Google Form inputs
+    // ১) হিডেন গুগল ফর্মের ইনপুটগুলোতে ডেটা অ্যাসাইন করা (আইডিগুলো ঠিক করা হয়েছে)
     document.getElementById('gform-name').value = name;
     document.getElementById('gform-mobile').value = mobile;
     document.getElementById('gform-whatsapp').value = whatsapp;
@@ -570,7 +566,7 @@
     document.getElementById('gform-product').value = selectedProduct.title;
     document.getElementById('gform-price').value = selectedProduct.price;
 
-    hasSubmittedOnce = true;
+    // ২) গুগল ফর্ম সাবমিট করা
     hiddenForm.submit();
 
     setTimeout(() => {
@@ -579,6 +575,7 @@
       formStatus.classList.remove('text-red-400');
       formStatus.classList.add('text-emerald-light');
       
+      // ৩) প্রপার অ্যাড্রেস ডিটেইলস সহ হোয়াটসঅ্যাপ মেসেজ পাঠানো
       openWhatsAppInvoice({ 
         name, mobile, whatsapp, house, road, pincode, city, state, landmark,
         product: selectedProduct.title, price: selectedProduct.price 
@@ -588,22 +585,33 @@
     }, 1200);
   });
 
+  // 📝 হোয়াটসঅ্যাপে গুছিয়ে ডিটেইলড অ্যাড্রেস পাঠানোর ফাংশন
   function openWhatsAppInvoice({ name, mobile, whatsapp, house, road, pincode, city, state, landmark, product, price }) {
-    const formattedAddress = `${house}, ${road}, ${city}, ${state} - ${pincode}${landmark ? ` (Landmark: ${landmark})` : ''}`;
     const lines = [
       `*New Order — ${SHOP_NAME}*`,
       ``,
       `🧾 *Product:* ${product}`,
       `💰 *Price:* ${formatPrice(price)}`,
-      `🚚 *Delivery Charge:* FREE (₹0)`,
-      `👤 *Name:* ${name}`,
-      `📱 *Mobile Number:* ${mobile}`,
-      `📱 *WhatsApp:* ${whatsapp}`,
-      `🏠 *Delivery Address:* ${formattedAddress}`,
-      `💵 *Payment:* Cash on Delivery`,
+      `🚚 *Delivery Charge:* FREE`,
+      ``,
+      `👤 *Customer Details:*`,
+      `  • Name: ${name}`,
+      `  • Mobile: ${mobile}`,
+      `  • WhatsApp: ${whatsapp}`,
+      ``,
+      `🏠 *Delivery Address:*`,
+      `  • House/Building: ${house}`,
+      `  • Road/Area: ${road}`,
+      `  • City: ${city}`,
+      `  • State: ${state}`,
+      `  • PIN Code: ${pincode}`,
+      landmark ? `  • Landmark: ${landmark}` : ``,
+      ``,
+      `💵 *Payment Method:* Cash on Delivery (COD)`,
       ``,
       `Please confirm my order, thank you!`
-    ];
+    ].filter(line => line !== `` || line.trim() !== ``); // অপ্রয়োজনীয় খালি লাইন ফিল্টার করা
+
     const message = encodeURIComponent(lines.join('\n'));
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
     window.open(url, '_blank', 'noopener');
