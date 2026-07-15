@@ -193,8 +193,9 @@
 
   <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     <!-- Category Filter Buttons -->
+<!-- Category Filter Buttons (Pure English) -->
 <div class="flex flex-wrap justify-center gap-3 my-8 px-4">
-  <button class="filter-btn active bg-emerald text-white px-5 py-2 rounded-full text-sm font-semibold transition" data-category="all">All</button>
+  <button class="filter-btn active bg-emerald text-white px-5 py-2 rounded-full text-sm font-semibold transition" data-category="all">All Products</button>
   <button class="filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-2 rounded-full text-sm font-semibold transition" data-category="home_decoration">Home Decoration</button>
   <button class="filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-2 rounded-full text-sm font-semibold transition" data-category="beauty">Beauty</button>
   <button class="filter-btn bg-slate-800 text-slate-300 hover:bg-slate-700 px-5 py-2 rounded-full text-sm font-semibold transition" data-category="useful_gadgets">Useful Gadgets</button>
@@ -431,18 +432,19 @@
     menuBtn.setAttribute('aria-expanded', String(!isOpen));
   });
 
-  const formatPrice = (value) => `৳${Number(value).toLocaleString('en-IN')}`;
+  // Changed formatting to standard currency styling (can be changed to ₹ or kept as ৳ based on preference)
+  const formatPrice = (value) => `₹${Number(value).toLocaleString('en-IN')}`;
   const grid = document.getElementById('product-grid');
   const errorMsg = document.getElementById('product-error');
   
-  let allProducts = []; // সব প্রোডাক্ট স্টোর করার জন্য গ্লোবাল ভেরিয়েবল
+  let allProducts = []; 
 
   async function loadProducts() {
     try {
       const res = await fetch('products.json', { cache: 'no-store' });
       if (!res.ok) throw new Error('Network response was not ok');
       allProducts = await res.json();
-      renderProducts(allProducts); // শুরুতে সব প্রোডাক্ট মিক্স দেখাবে
+      renderProducts(allProducts); 
       setupCategoryFilters();
     } catch (err) {
       console.error('Failed to load products:', err);
@@ -473,7 +475,12 @@
             <span class="text-gold-light font-semibold text-xl">${formatPrice(p.offer_price)}</span>
             ${p.original_price && p.original_price > p.offer_price ? `<span class="text-slate-500 text-sm line-through">${formatPrice(p.original_price)}</span>` : ''}
           </div>
+          <!-- Pure English Delivery Tag -->
           <div class="flex items-center gap-1.5 text-emerald-light text-xs font-semibold mb-5 bg-emerald/10 border border-emerald/20 px-2.5 py-1 rounded-md w-fit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10M21 16V10a1 1 0 00-1-1h-7m7 7H9m12 0a2 2 0 01-2 2m0 0a2 2 0 01-2-2m-2 0H9" />
+            </svg>
             Free Delivery
           </div>
           <button class="order-btn btn-emerald mt-auto w-full text-white text-sm font-semibold py-3 rounded-full" data-title="${p.title.replace(/"/g, '&quot;')}" data-price="${p.offer_price}">
@@ -489,28 +496,24 @@
     });
   }
 
-  // 🔍 ক্যাটাগরি ফিল্টার লজিক
   function setupCategoryFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     
     filterButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        // আগের অ্যাক্টিভ বাটনের স্টাইল রিমুভ করা
+      btn.addEventListener('click', () => {
         filterButtons.forEach(b => {
           b.classList.remove('bg-emerald', 'text-white', 'active');
           b.classList.add('bg-slate-800', 'text-slate-300');
         });
         
-        // বর্তমান ক্লিক করা বাটনে অ্যাক্টিভ স্টাইল দেওয়া
         btn.classList.remove('bg-slate-800', 'text-slate-300');
         btn.classList.add('bg-emerald', 'text-white', 'active');
         
         const selectedCategory = btn.dataset.category;
         
         if (selectedCategory === 'all') {
-          renderProducts(allProducts); // 'All' ক্লিক করলে মিক্সড দেখাবে
+          renderProducts(allProducts);
         } else {
-          // নির্দিষ্ট ক্যাটাগরি ফিল্টার করা
           const filtered = allProducts.filter(p => p.category === selectedCategory);
           renderProducts(filtered);
         }
@@ -520,7 +523,6 @@
 
   loadProducts();
 
-  // Modal code (আগের মতোই থাকবে)
   const modal = document.getElementById('order-modal');
   const modalBackdrop = document.getElementById('modal-backdrop');
   const modalCloseBtn = document.getElementById('modal-close');
@@ -599,7 +601,7 @@
   function openWhatsAppInvoice({ name, mobile, whatsapp, house, road, pincode, city, state, landmark, product, price }) {
     const lines = [
       `*New Order — ${SHOP_NAME}*`, ``,
-      `🧾 *Product:* ${product}`, `💰 *Price:* ${formatPrice(price)}`, `🚚 *Delivery Charge:* FREE`, ``,
+      ` 🧾 *Product:* ${product}`, `💰 *Price:* ${formatPrice(price)}`, `🚚 *Delivery Charge:* FREE`, ``,
       `👤 *Customer Details:*`, `  • Name: ${name}`, `  • Mobile: ${mobile}`, `  • WhatsApp: ${whatsapp}`, ``,
       `🏠 *Delivery Address:*`, `  • House/Building: ${house}`, `  • Road/Area: ${road}`, `  • City: ${city}`, `  • State: ${state}`, `  • PIN Code: ${pincode}`, landmark ? `  • Landmark: ${landmark}` : ``, ``,
       `💵 *Payment Method:* Cash on Delivery (COD)`, ``, `Please confirm my order, thank you!`
