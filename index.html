@@ -9,7 +9,7 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght=0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Tailwind CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -40,18 +40,15 @@
   }
   h1, h2, h3, .font-display { font-family: 'Playfair Display', serif; }
 
-  /* Reduced motion respect */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   }
 
-  /* Signature: gold thread divider */
   .gold-thread {
     height: 1px;
     background: linear-gradient(90deg, transparent, #d97706 50%, transparent);
   }
 
-  /* Glassmorphic navbar */
   .glass-nav {
     background: rgba(15, 23, 42, 0.65);
     backdrop-filter: blur(14px);
@@ -59,7 +56,6 @@
     border-bottom: 1px solid rgba(217, 119, 6, 0.18);
   }
 
-  /* Hero radial glow */
   .hero-glow {
     position: absolute;
     inset: 0;
@@ -69,7 +65,6 @@
     pointer-events: none;
   }
 
-  /* Product card hover */
   .product-card {
     transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.45s ease, border-color 0.45s ease;
     will-change: transform;
@@ -88,7 +83,6 @@
     filter: brightness(1.05);
   }
 
-  /* Buttons */
   .btn-gold {
     background: linear-gradient(135deg, #f59e0b, #d97706);
     transition: box-shadow 0.35s ease, transform 0.35s ease;
@@ -101,13 +95,11 @@
   }
   .btn-emerald:hover { box-shadow: 0 10px 30px -8px rgba(5, 150, 105, 0.55); transform: translateY(-2px); }
 
-  /* Focus visibility (accessibility floor) */
   a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
     outline: 2px solid #f59e0b;
     outline-offset: 2px;
   }
 
-  /* Modal */
   #order-modal { transition: opacity 0.3s ease; }
   #order-modal.hidden-modal { opacity: 0; pointer-events: none; }
   #order-modal .modal-panel {
@@ -115,7 +107,6 @@
   }
   #order-modal.hidden-modal .modal-panel { transform: translateY(24px) scale(0.98); opacity: 0; }
 
-  /* Skeleton loader for products */
   .skeleton {
     background: linear-gradient(90deg, rgba(148,163,184,0.08) 25%, rgba(148,163,184,0.16) 37%, rgba(148,163,184,0.08) 63%);
     background-size: 400% 100%;
@@ -124,7 +115,6 @@
   @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
 
   ::selection { background: rgba(217, 119, 6, 0.35); }
-
   .scrollbar-thin::-webkit-scrollbar { width: 6px; }
   .scrollbar-thin::-webkit-scrollbar-thumb { background: #d97706; border-radius: 4px; }
 </style>
@@ -148,14 +138,12 @@
     <a href="#shop" class="btn-gold hidden sm:inline-block text-navy-deep font-semibold text-sm px-5 py-2.5 rounded-full">
       Shop Now
     </a>
-    <!-- Mobile menu button -->
     <button id="mobile-menu-btn" class="md:hidden text-slate-200 p-2" aria-label="Open menu" aria-expanded="false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
         <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
       </svg>
     </button>
   </div>
-  <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden border-t border-gold/10 bg-navy-deep/95 px-6 py-5 flex flex-col gap-4 text-slate-200">
     <a href="#home" class="mobile-link">Home</a>
     <a href="#shop" class="mobile-link">Shop</a>
@@ -186,7 +174,6 @@
       </a>
     </div>
 
-    <!-- Trust strip -->
     <div class="mt-16 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-slate-400 text-xs sm:text-sm">
       <span class="flex items-center gap-2">🚚 Free Nationwide Delivery</span>
       <span class="flex items-center gap-2">💵 Cash on Delivery Available</span>
@@ -197,7 +184,7 @@
 
 <div class="gold-thread max-w-4xl mx-auto"></div>
 
-<!-- ============ SHOP / PRODUCT GRID ============ -->
+<!-- ============ SHOP ============ -->
 <section id="shop" class="px-5 sm:px-8 py-24 max-w-7xl mx-auto">
   <div class="text-center mb-14">
     <p class="uppercase tracking-[0.3em] text-gold-light text-xs mb-3">Curated Selection</p>
@@ -205,7 +192,6 @@
   </div>
 
   <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    <!-- Skeleton placeholders while JS loads products.json -->
     <div class="skeleton rounded-2xl h-96"></div>
     <div class="skeleton rounded-2xl h-96"></div>
     <div class="skeleton rounded-2xl h-96"></div>
@@ -327,22 +313,62 @@
     <!-- Visible form (does NOT submit anywhere directly; JS handles it) -->
     <form id="order-form" class="space-y-4" novalidate>
       <div>
-        <label for="cust-name" class="block text-slate-300 text-xs mb-1.5">Full Name</label>
-        <input required id="cust-name" name="cust-name" type="text" autocomplete="name"
+        <label for="cust-name" class="block text-slate-300 text-xs mb-1.5">Full Name *</label>
+        <input required id="cust-name" type="text" autocomplete="name"
           class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
-          placeholder="e.g. Ayesha Rahman" />
+          placeholder="e.g. Amit Das" />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label for="cust-mobile" class="block text-slate-300 text-xs mb-1.5">Mobile Number *</label>
+          <input required id="cust-mobile" type="tel"
+            class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
+            placeholder="e.g. 017XXXXXXXX" />
+        </div>
+        <div>
+          <label for="cust-whatsapp" class="block text-slate-300 text-xs mb-1.5">WhatsApp Number *</label>
+          <input required id="cust-whatsapp" type="tel"
+            class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
+            placeholder="e.g. 017XXXXXXXX" />
+        </div>
       </div>
       <div>
-        <label for="cust-whatsapp" class="block text-slate-300 text-xs mb-1.5">WhatsApp Number</label>
-        <input required id="cust-whatsapp" name="cust-whatsapp" type="tel" autocomplete="tel"
+        <label for="cust-house" class="block text-slate-300 text-xs mb-1.5">House no. / Building Name *</label>
+        <input required id="cust-house" type="text"
           class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
-          placeholder="e.g. 01XXXXXXXXX" />
+          placeholder="Flat 4A, Green Villa" />
       </div>
       <div>
-        <label for="cust-address" class="block text-slate-300 text-xs mb-1.5">Full Delivery Address</label>
-        <textarea required id="cust-address" name="cust-address" rows="3" autocomplete="street-address"
-          class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none resize-none"
-          placeholder="House, Road, Area, City, Postcode"></textarea>
+        <label for="cust-road" class="block text-slate-300 text-xs mb-1.5">Road Name / Area / Colony *</label>
+        <input required id="cust-road" type="text"
+          class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
+          placeholder="Lake Road, Sector 5" />
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label for="cust-pincode" class="block text-slate-300 text-xs mb-1.5">Pin code *</label>
+          <input required id="cust-pincode" type="text"
+            class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-3 py-3 text-xs text-white placeholder-slate-500 outline-none"
+            placeholder="700001" />
+        </div>
+        <div>
+          <label for="cust-city" class="block text-slate-300 text-xs mb-1.5">City *</label>
+          <input required id="cust-city" type="text"
+            class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-3 py-3 text-xs text-white placeholder-slate-500 outline-none"
+            placeholder="Kolkata" />
+        </div>
+        <div>
+          <label for="cust-state" class="block text-slate-300 text-xs mb-1.5">State *</label>
+          <input required id="cust-state" type="text"
+            class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-3 py-3 text-xs text-white placeholder-slate-500 outline-none"
+            placeholder="West Bengal" />
+        </div>
+      </div>
+      <div>
+        <label for="cust-landmark" class="block text-slate-300 text-xs mb-1.5">Nearby Famous Place/Shop/school,etc (optional)</label>
+        <input id="cust-landmark" type="text"
+          class="w-full bg-navy-deep border border-slate-700 focus:border-gold rounded-lg px-4 py-3 text-sm text-white placeholder-slate-500 outline-none"
+          placeholder="Near Metro Station" />
       </div>
 
       <p id="form-status" class="hidden text-xs text-emerald-light"></p>
@@ -358,44 +384,40 @@
   </div>
 </div>
 
-<!-- Hidden iframe target so the Google Form submits without leaving/refreshing the page -->
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
 <!--
   ============================================================
   HIDDEN GOOGLE FORM (background submission)
   ============================================================
-  1) Replace YOUR_GOOGLE_FORM_ACTION_URL below with your form's
-     "formResponse" URL (see instructions at the bottom of this file
-     / in the setup notes provided alongside this code).
-  2) Replace each name="entry.XXXXXXX" with the real entry ID that
-     matches the corresponding question in your Google Form.
-  ============================================================
 -->
 <form id="hidden-google-form"
-      action="YOUR_GOOGLE_FORM_ACTION_URL"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSfk5PUr0yY5j_oufbGGPxe7hpuLSiWnv-erDjMFybR8MkNtqA/formResponse"
       method="POST"
       target="hidden_iframe"
       style="display:none;">
-  <input type="text" name="entry.111111111" id="gform-name" />
-  <input type="text" name="entry.222222222" id="gform-whatsapp" />
-  <input type="text" name="entry.333333333" id="gform-address" />
-  <input type="text" name="entry.444444444" id="gform-product" />
-  <input type="text" name="entry.555555555" id="gform-price" />
+  <input type="text" name="entry.1216156031" id="gform-name" />
+  <input type="text" name="entry.1331698096" id="gform-mobile" />
+  <input type="text" name="entry.1950630997" id="gform-whatsapp" />
+  <input type="text" name="entry.2136935623" id="gform-house" />
+  <input type="text" name="entry.1473403406" id="gform-road" />
+  <input type="text" name="entry.575428956" id="gform-pincode" />
+  <input type="text" name="entry.1483131962" id="gform-city" />
+  <input type="text" name="entry.1674080782" id="gform-state" />
+  <input type="text" name="entry.1014434921" id="gform-landmark" />
+  <input type="text" name="entry.1916690547" id="gform-product" />
+  <input type="text" name="entry.160300220" id="gform-price" />
 </form>
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
   /* ============================================================
-     CONFIG — edit these two values for your own store
+     CONFIG — আপনার হোয়াটসঅ্যাপ নম্বর এখানে বসাবেন (No spaces, no '+')
      ============================================================ */
-  const WHATSAPP_NUMBER = '910000000000'; // country code + number, no + or spaces
+  const WHATSAPP_NUMBER = '918343876377'; // 👈 আপনার 12-digit Whatsapp Number টি এখানে বসান
   const SHOP_NAME = 'Rizora Market';
 
-  /* ============================================================
-     Mobile menu toggle
-     ============================================================ */
   const menuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   menuBtn.addEventListener('click', () => {
@@ -405,14 +427,8 @@
   });
   mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-  /* ============================================================
-     Currency formatter — adjust locale/currency for your market
-     ============================================================ */
   const formatPrice = (value) => `৳${Number(value).toLocaleString('en-IN')}`;
 
-  /* ============================================================
-     Load products dynamically from products.json
-     ============================================================ */
   const grid = document.getElementById('product-grid');
   const errorMsg = document.getElementById('product-error');
 
@@ -443,12 +459,23 @@
         </div>
         <div class="p-5 flex flex-col flex-1">
           <h3 class="font-display text-lg text-white mb-2">${p.title}</h3>
-          <div class="flex items-baseline gap-2 mb-5">
+          
+          <div class="flex items-baseline gap-2 mb-2">
             <span class="text-gold-light font-semibold text-xl">${formatPrice(p.offer_price)}</span>
             ${p.original_price && p.original_price > p.offer_price
               ? `<span class="text-slate-500 text-sm line-through">${formatPrice(p.original_price)}</span>`
               : ''}
           </div>
+
+          <!-- 🟢 GREEN FREE DELIVERY BADGE -->
+          <div class="flex items-center gap-1.5 text-emerald-light text-xs font-semibold mb-5 bg-emerald/10 border border-emerald/20 px-2.5 py-1 rounded-md w-fit">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10M21 16V10a1 1 0 00-1-1h-7m7 7H9m12 0a2 2 0 01-2 2m0 0a2 2 0 01-2-2m-2 0H9" />
+            </svg>
+            Free Delivery (ফ্রি ডেলিভারি)
+          </div>
+
           <button
             class="order-btn btn-emerald mt-auto w-full text-white text-sm font-semibold py-3 rounded-full"
             data-title="${p.title.replace(/"/g, '&quot;')}"
@@ -467,9 +494,6 @@
 
   loadProducts();
 
-  /* ============================================================
-     Order modal open / close
-     ============================================================ */
   const modal = document.getElementById('order-modal');
   const modalBackdrop = document.getElementById('modal-backdrop');
   const modalCloseBtn = document.getElementById('modal-close');
@@ -506,26 +530,25 @@
     if (e.key === 'Escape' && !modal.classList.contains('hidden-modal')) closeOrderModal();
   });
 
-  /* ============================================================
-     Submit flow:
-     1. Validate visible form
-     2. Fill the hidden Google Form fields
-     3. Submit hidden form to hidden iframe (no page reload)
-     4. Open WhatsApp with a pre-filled invoice-style message
-     ============================================================ */
   const hiddenForm = document.getElementById('hidden-google-form');
   const hiddenIframe = document.getElementById('hidden_iframe');
-  let hasSubmittedOnce = false; // avoids the iframe's initial blank load triggering anything
+  let hasSubmittedOnce = false;
 
   orderForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const name = document.getElementById('cust-name').value.trim();
+    const mobile = document.getElementById('cust-mobile').value.trim();
     const whatsapp = document.getElementById('cust-whatsapp').value.trim();
-    const address = document.getElementById('cust-address').value.trim();
+    const house = document.getElementById('cust-house').value.trim();
+    const road = document.getElementById('cust-road').value.trim();
+    const pincode = document.getElementById('cust-pincode').value.trim();
+    const city = document.getElementById('cust-city').value.trim();
+    const state = document.getElementById('cust-state').value.trim();
+    const landmark = document.getElementById('cust-landmark').value.trim();
 
-    if (!name || !whatsapp || !address) {
-      formStatus.textContent = 'Please fill in every field before confirming.';
+    if (!name || !mobile || !whatsapp || !house || !road || !pincode || !city || !state) {
+      formStatus.textContent = 'Please fill in every required (*) field before confirming.';
       formStatus.classList.remove('hidden');
       formStatus.classList.replace('text-emerald-light', 'text-red-400');
       return;
@@ -536,39 +559,47 @@
 
     // 1) Fill hidden Google Form inputs
     document.getElementById('gform-name').value = name;
+    document.getElementById('gform-mobile').value = mobile;
     document.getElementById('gform-whatsapp').value = whatsapp;
-    document.getElementById('gform-address').value = address;
+    document.getElementById('gform-house').value = house;
+    document.getElementById('gform-road').value = road;
+    document.getElementById('gform-pincode').value = pincode;
+    document.getElementById('gform-city').value = city;
+    document.getElementById('gform-state').value = state;
+    document.getElementById('gform-landmark').value = landmark;
     document.getElementById('gform-product').value = selectedProduct.title;
     document.getElementById('gform-price').value = selectedProduct.price;
 
-    // 2) Mark that a real submission is about to happen
     hasSubmittedOnce = true;
-
-    // 3) Submit the hidden form into the hidden iframe (background, no refresh)
     hiddenForm.submit();
 
-    // Google Forms doesn't let us read the iframe response (cross-origin),
-    // so we treat the submit as successful after a short delay and continue
-    // to the WhatsApp handoff. This also gives the POST time to land.
     setTimeout(() => {
       formStatus.textContent = 'Order recorded — opening WhatsApp…';
       formStatus.classList.remove('hidden');
       formStatus.classList.remove('text-red-400');
       formStatus.classList.add('text-emerald-light');
-      openWhatsAppInvoice({ name, whatsapp, address, product: selectedProduct.title, price: selectedProduct.price });
+      
+      openWhatsAppInvoice({ 
+        name, mobile, whatsapp, house, road, pincode, city, state, landmark,
+        product: selectedProduct.title, price: selectedProduct.price 
+      });
+      
       submitBtnText.textContent = 'Order Confirmed ✓';
     }, 1200);
   });
 
-  function openWhatsAppInvoice({ name, whatsapp, address, product, price }) {
+  function openWhatsAppInvoice({ name, mobile, whatsapp, house, road, pincode, city, state, landmark, product, price }) {
+    const formattedAddress = `${house}, ${road}, ${city}, ${state} - ${pincode}${landmark ? ` (Landmark: ${landmark})` : ''}`;
     const lines = [
       `*New Order — ${SHOP_NAME}*`,
       ``,
       `🧾 *Product:* ${product}`,
       `💰 *Price:* ${formatPrice(price)}`,
+      `🚚 *Delivery Charge:* FREE (₹0)`,
       `👤 *Name:* ${name}`,
+      `📱 *Mobile Number:* ${mobile}`,
       `📱 *WhatsApp:* ${whatsapp}`,
-      `🏠 *Address:* ${address}`,
+      `🏠 *Delivery Address:* ${formattedAddress}`,
       `💵 *Payment:* Cash on Delivery`,
       ``,
       `Please confirm my order, thank you!`
