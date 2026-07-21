@@ -40,6 +40,18 @@
   "image/HK003/3.avif",
   "image/HK003/4.avif"
  ]
+  },
+   {
+    "id": 3,
+    "title": "ss knife set with chopping board(HK004)",
+    "description": "ss knife set with chopping board",
+    "category": "home_kitchen",
+    "real_price": 419,
+    "offer_price": 327,
+    "images": [
+  "image/HK004/1.avif"
+ 
+ ]
   }
   
 ]
