@@ -6,6 +6,10 @@
   "category": "mobile_accessories",
   "real_price": 1899,
   "offer_price": 999,
-  "image": "https://images.meesho.com/images/products/224092807/bjr0t_512.avif?width=512"
+  "images": [
+    "https://images.meesho.com/images/products/224092807/bjr0t_512.avif?width=512",
+    "https://images.meesho.com/images/products/224092807/4jvkl_512.avif?width=512",
+    "https://images.meesho.com/images/products/224092807/tuy4g_512.avif?width=512"
+  ]
 }
 ]
