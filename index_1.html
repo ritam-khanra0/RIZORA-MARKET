@@ -261,7 +261,7 @@
       </svg>
     </button>
 
-    <div id="details-image-wrap" class="relative w-full aspect-square bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden mb-3 select-none">
+    <div id="details-image-wrap" class="relative w-full aspect-square bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden mb-3 select-none" style="overflow: hidden;">
       <span id="details-discount-badge" class="hidden absolute top-3 left-3 z-10 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded"></span>
 
       <div id="details-image-track" class="w-full h-full flex items-center justify-center"></div>
@@ -674,9 +674,9 @@
     detailsImagePlaceholder.classList.add('hidden');
 
     // sliding track: each slide is full-width, track shifts via translateX
-    detailsImageTrack.style.cssText = `display:flex; width:100%; height:100%; transition: transform 0.3s ease;`;
+    detailsImageTrack.style.cssText = `display:flex; flex-wrap:nowrap; width:100%; height:100%; transition: transform 0.3s ease; overflow:hidden;`;
     detailsImageTrack.innerHTML = images.map((src, i) => `
-      <div class="shrink-0 w-full h-full flex items-center justify-center" style="min-width:100%;">
+      <div class="shrink-0 w-full h-full flex items-center justify-center" style="min-width:100%; max-width:100%;">
         <img src="${src}" alt="Photo ${i + 1}" loading="lazy" class="w-full h-full object-contain p-4"
           onerror="this.closest('div').style.display='none';">
       </div>
