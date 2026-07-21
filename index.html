@@ -261,9 +261,11 @@
       </svg>
     </button>
 
-    <div id="details-image-wrap" class="relative w-full aspect-square bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden mb-5">
+    <div id="details-image-wrap" class="relative w-full aspect-square bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden mb-3 select-none">
       <span id="details-discount-badge" class="hidden absolute top-3 left-3 z-10 bg-accent text-white text-xs font-bold px-2.5 py-1 rounded"></span>
-      <img id="details-image" src="" alt="" class="hidden w-full h-full object-contain p-4" />
+
+      <div id="details-image-track" class="w-full h-full flex items-center justify-center"></div>
+
       <div id="details-image-placeholder" class="flex-col items-center justify-center text-slate-300 gap-1.5 w-full h-full flex">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
@@ -271,7 +273,27 @@
         </svg>
         <span class="text-xs text-slate-400">Image coming soon</span>
       </div>
+
+      <!-- Prev / Next arrows -->
+      <button id="details-img-prev" aria-label="Previous photo"
+        class="hidden absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-brand rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button id="details-img-next" aria-label="Next photo"
+        class="hidden absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-brand rounded-full p-2 shadow-md">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <!-- Dot indicators -->
+      <div id="details-img-dots" class="hidden absolute bottom-2.5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-1.5"></div>
     </div>
+
+    <!-- Thumbnail strip -->
+    <div id="details-thumb-row" class="hidden flex items-center gap-2 mb-5 overflow-x-auto scrollbar-thin pb-1"></div>
 
     <span id="details-category-tag" class="inline-block text-accent text-[11px] font-semibold uppercase tracking-wide mb-2"></span>
     <h3 id="details-title" class="text-brand text-lg sm:text-xl font-bold mb-3">—</h3>
@@ -537,6 +559,8 @@
       const offerPrice = Number(p.offer_price) || 0;
       const discount = realPrice > offerPrice ? Math.round(((realPrice - offerPrice) / realPrice) * 100) : 0;
       const safeTitle = p.title.replace(/"/g, '&quot;');
+      const images = (Array.isArray(p.images) && p.images.length) ? p.images : (p.image ? [p.image] : []);
+      const thumb = images[0] || '';
 
       const card = document.createElement('article');
       card.className = 'product-card bg-white border border-slate-200 rounded-lg overflow-hidden flex flex-col';
@@ -545,9 +569,9 @@
       card.innerHTML = `
         <div class="relative w-full aspect-square bg-slate-50 flex items-center justify-center overflow-hidden cursor-pointer product-open-details">
           ${discount > 0 ? `<span class="absolute top-2 left-2 z-10 bg-accent text-white text-[11px] font-bold px-2 py-1 rounded">-${discount}%</span>` : ''}
-          ${p.image ? `<img src="${p.image}" alt="${safeTitle}" loading="lazy" class="w-full h-full object-contain p-3"
+          ${thumb ? `<img src="${thumb}" alt="${safeTitle}" loading="lazy" class="w-full h-full object-contain p-3"
               onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex';">` : ''}
-          <div class="placeholder-img flex-col items-center justify-center text-slate-300 gap-1.5 w-full h-full" style="display:${p.image ? 'none' : 'flex'};">
+          <div class="placeholder-img flex-col items-center justify-center text-slate-300 gap-1.5 w-full h-full" style="display:${thumb ? 'none' : 'flex'};">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M4 6h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V7a1 1 0 011-1z" />
               <circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none" />
@@ -613,8 +637,12 @@
   const detailsModal = document.getElementById('details-modal');
   const detailsBackdrop = document.getElementById('details-backdrop');
   const detailsCloseBtn = document.getElementById('details-close');
-  const detailsImage = document.getElementById('details-image');
+  const detailsImageTrack = document.getElementById('details-image-track');
   const detailsImagePlaceholder = document.getElementById('details-image-placeholder');
+  const detailsImgPrev = document.getElementById('details-img-prev');
+  const detailsImgNext = document.getElementById('details-img-next');
+  const detailsImgDots = document.getElementById('details-img-dots');
+  const detailsThumbRow = document.getElementById('details-thumb-row');
   const detailsDiscountBadge = document.getElementById('details-discount-badge');
   const detailsCategoryTag = document.getElementById('details-category-tag');
   const detailsTitle = document.getElementById('details-title');
@@ -624,11 +652,106 @@
   const detailsDescription = document.getElementById('details-description');
   const detailsBuyBtn = document.getElementById('details-buy-btn');
 
+  let galleryImages = [];
+  let galleryIndex = 0;
+
+  function renderGallery(images) {
+    galleryImages = images;
+    galleryIndex = 0;
+
+    if (!images.length) {
+      detailsImageTrack.innerHTML = '';
+      detailsImagePlaceholder.classList.remove('hidden');
+      detailsImgPrev.classList.add('hidden');
+      detailsImgNext.classList.add('hidden');
+      detailsImgDots.classList.add('hidden');
+      detailsImgDots.innerHTML = '';
+      detailsThumbRow.classList.add('hidden');
+      detailsThumbRow.innerHTML = '';
+      return;
+    }
+
+    detailsImagePlaceholder.classList.add('hidden');
+
+    // sliding track: each slide is full-width, track shifts via translateX
+    detailsImageTrack.style.cssText = `display:flex; width:100%; height:100%; transition: transform 0.3s ease;`;
+    detailsImageTrack.innerHTML = images.map((src, i) => `
+      <div class="shrink-0 w-full h-full flex items-center justify-center" style="min-width:100%;">
+        <img src="${src}" alt="Photo ${i + 1}" loading="lazy" class="w-full h-full object-contain p-4"
+          onerror="this.closest('div').style.display='none';">
+      </div>
+    `).join('');
+
+    const showArrows = images.length > 1;
+    detailsImgPrev.classList.toggle('hidden', !showArrows);
+    detailsImgNext.classList.toggle('hidden', !showArrows);
+    detailsImgDots.classList.toggle('hidden', !showArrows);
+    detailsThumbRow.classList.toggle('hidden', !showArrows);
+
+    if (showArrows) {
+      detailsImgDots.innerHTML = images.map((_, i) =>
+        `<span class="gallery-dot h-1.5 rounded-full bg-white/70 transition-all" data-idx="${i}"></span>`
+      ).join('');
+      detailsThumbRow.innerHTML = images.map((src, i) => `
+        <button class="gallery-thumb shrink-0 w-16 h-16 rounded-lg border-2 overflow-hidden bg-slate-50" data-idx="${i}">
+          <img src="${src}" alt="Thumbnail ${i + 1}" class="w-full h-full object-contain p-1" onerror="this.parentElement.style.display='none';">
+        </button>
+      `).join('');
+
+      detailsImgDots.querySelectorAll('.gallery-dot').forEach((dot) => {
+        dot.addEventListener('click', () => goToSlide(Number(dot.dataset.idx)));
+      });
+      detailsThumbRow.querySelectorAll('.gallery-thumb').forEach((thumb) => {
+        thumb.addEventListener('click', () => goToSlide(Number(thumb.dataset.idx)));
+      });
+    }
+
+    updateGalleryUI();
+  }
+
+  function updateGalleryUI() {
+    detailsImageTrack.style.transform = `translateX(-${galleryIndex * 100}%)`;
+    detailsImgDots.querySelectorAll('.gallery-dot').forEach((dot, i) => {
+      const active = i === galleryIndex;
+      dot.classList.toggle('w-5', active);
+      dot.classList.toggle('w-1.5', !active);
+      dot.classList.toggle('bg-white', active);
+      dot.classList.toggle('bg-white/70', !active);
+    });
+    detailsThumbRow.querySelectorAll('.gallery-thumb').forEach((thumb, i) => {
+      const active = i === galleryIndex;
+      thumb.classList.toggle('border-accent', active);
+      thumb.classList.toggle('border-slate-200', !active);
+    });
+  }
+
+  function goToSlide(i) {
+    if (!galleryImages.length) return;
+    galleryIndex = (i + galleryImages.length) % galleryImages.length;
+    updateGalleryUI();
+  }
+
+  detailsImgPrev.addEventListener('click', () => goToSlide(galleryIndex - 1));
+  detailsImgNext.addEventListener('click', () => goToSlide(galleryIndex + 1));
+
+  // swipe support
+  let touchStartX = 0;
+  const detailsImageWrap = document.getElementById('details-image-wrap');
+  detailsImageWrap.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  detailsImageWrap.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(diff) > 40) {
+      if (diff < 0) goToSlide(galleryIndex + 1);
+      else goToSlide(galleryIndex - 1);
+    }
+  }, { passive: true });
+
   function openDetailsModal(product) {
     const realPrice = Number(product.real_price) || 0;
     const offerPrice = Number(product.offer_price) || 0;
     const discount = realPrice > offerPrice ? Math.round(((realPrice - offerPrice) / realPrice) * 100) : 0;
     const cat = CATEGORIES.find((c) => c.slug === product.category);
+    const images = (Array.isArray(product.images) && product.images.length) ? product.images : (product.image ? [product.image] : []);
 
     detailsTitle.textContent = product.title;
     detailsCategoryTag.textContent = cat ? `${cat.icon} ${cat.label}` : '';
@@ -648,19 +771,7 @@
       detailsDiscountBadge.classList.add('hidden');
     }
 
-    if (product.image) {
-      detailsImage.src = product.image;
-      detailsImage.alt = product.title;
-      detailsImage.classList.remove('hidden');
-      detailsImagePlaceholder.classList.add('hidden');
-      detailsImage.onerror = () => {
-        detailsImage.classList.add('hidden');
-        detailsImagePlaceholder.classList.remove('hidden');
-      };
-    } else {
-      detailsImage.classList.add('hidden');
-      detailsImagePlaceholder.classList.remove('hidden');
-    }
+    renderGallery(images);
 
     detailsBuyBtn.dataset.title = product.title;
     detailsBuyBtn.dataset.price = offerPrice;
@@ -789,3 +900,4 @@
 
 </body>
 </html>
+
