@@ -7,10 +7,10 @@
     "real_price": 301,
     "offer_price": 159,
     "images": [
-  "https://images.meesho.com/images/products/224092807/bjr0t_512.avif?width=64",
-  "https://images.meesho.com/images/products/224092807/4jvkl_512.avif?width=512",
-  "https://images.meesho.com/images/products/224092807/tuy4g_512.avif?width=512",
-  "https://images.meesho.com/images/products/224092807/ucbdq_512.avif?width=512"
+  "image/HK001/1.avif",
+  "image/HK001/2.avif",
+  "image/HK001/3.avif",
+  "image/HK001/4.avif"
  ]
   }
 ]
