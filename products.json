@@ -1,16 +1,14 @@
 [
-  {
-    "id": 1,
-    "title": "Compact Chopper with Blades Effortlessly Chopping",
-    "description": "Compact Chopper with Blades effortlessly Chopping Big Size Kitchen Dori Handy Vegetable and Fruit Manual Onion Dry Fruit Salad Maker Vegetable Quick Chopper (450 ml, Green)",
-    "category": "home_kitchen",
-    "real_price": 301,
-    "offer_price": 159,
-    "images": [
-      "https://i.ibb.co/Psw3Wx3V/bjr0t-512.avif",
-      "https://i.ibb.co/BKCkQs6C/4jvkl-512.avif",
-      "https://i.ibb.co/4ZpQ2PJh/tuy4g-512.avif",
-      "https://i.ibb.co/w9vPTF7/ucbdq-512.avif"
-    ]
-  }
+{
+  "id": 10,
+  "title": "HK001 - Cotton Bedsheet Set (King Size)",
+  "description": "Soft 100% cotton bedsheet with 2 pillow covers.",
+  "category": "home_kitchen",
+  "real_price": 1899,
+  "offer_price": 999,
+  "image": "https://images.meesho.com/images/products/224092807/bjr0t_512.avif?width=512"
+  "image": "https://images.meesho.com/images/products/224092807/4jvkl_512.avif?width=512"
+  "image": "https://images.meesho.com/images/products/224092807/tuy4g_512.avif?width=512"
+  "image": "https://images.meesho.com/images/products/224092807/ucbdq_512.avif?width=512"
+}
 ]
