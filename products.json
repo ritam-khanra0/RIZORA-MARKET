@@ -7,9 +7,9 @@
     "real_price": 301,
     "offer_price": 159,
     "images": [
-  "images/HK001/1.jpg",
-  "images/HK001/2.jpg",
-  "images/HK001/3.jpg"
+  "image/HK001/1.avif",
+  "image/HK001/2.avif",
+  "image/HK001/3.avif"
 ]
   }
 ]
